@@ -314,7 +314,7 @@ export function FarmerManagementPortal({ onBack }: FarmerManagementPortalProps) 
 
         <div className="text-center mb-6">
           <h1 className="text-3xl font-bold text-gray-900 mb-2">Farmer & Collector Management</h1>
-          <p className="text-gray-600">Comprehensive management portal for farmers and herb collectors in the AyurTrace network</p>
+          <p className="text-gray-600">Comprehensive management portal for farmers and herb collectors in the Viśuddha network</p>
         </div>
       </div>
 
@@ -855,7 +855,7 @@ export function FarmerManagementPortal({ onBack }: FarmerManagementPortalProps) 
               <Card>
                 <CardHeader>
                   <CardTitle>New Farmer Registration</CardTitle>
-                  <CardDescription>Onboard new farmers to the AyurTrace network</CardDescription>
+                  <CardDescription>Onboard new farmers to the Viśuddha network</CardDescription>
                 </CardHeader>
                 <CardContent>
                   <form className="space-y-4">

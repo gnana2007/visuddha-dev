@@ -49,7 +49,7 @@ export function LoginPortal({ onBack, onLogin }: LoginPortalProps) {
       icon: Leaf,
       description: 'Field collection and herb harvesting',
       permissions: ['collection', 'gps_tracking', 'quality_input'],
-      demo: { email: 'ramesh.farmer@ayurtrace.com', password: 'demo123' }
+      demo: { email: 'ramesh.farmer@visuddha.com', password: 'demo123' }
     },
     {
       id: 'processor',
@@ -57,7 +57,7 @@ export function LoginPortal({ onBack, onLogin }: LoginPortalProps) {
       icon: Building,
       description: 'Herb processing and manufacturing',
       permissions: ['processing', 'batch_management', 'quality_control'],
-      demo: { email: 'facility@ayurtrace.com', password: 'demo123' }
+      demo: { email: 'facility@visuddha.com', password: 'demo123' }
     },
     {
       id: 'lab',
@@ -65,7 +65,7 @@ export function LoginPortal({ onBack, onLogin }: LoginPortalProps) {
       icon: Shield,
       description: 'Quality testing and certification',
       permissions: ['testing', 'certification', 'quality_analysis'],
-      demo: { email: 'lab@ayurtrace.com', password: 'demo123' }
+      demo: { email: 'lab@visuddha.com', password: 'demo123' }
     },
     {
       id: 'consumer',
@@ -73,7 +73,7 @@ export function LoginPortal({ onBack, onLogin }: LoginPortalProps) {
       icon: User,
       description: 'Product verification and traceability',
       permissions: ['product_scan', 'traceability_view'],
-      demo: { email: 'consumer@ayurtrace.com', password: 'demo123' }
+      demo: { email: 'consumer@visuddha.com', password: 'demo123' }
     },
     {
       id: 'admin',
@@ -81,7 +81,7 @@ export function LoginPortal({ onBack, onLogin }: LoginPortalProps) {
       icon: Shield,
       description: 'Full system access and management',
       permissions: ['full_access', 'user_management', 'system_config'],
-      demo: { email: 'admin@ayurtrace.com', password: 'admin123' }
+      demo: { email: 'admin@visuddha.com', password: 'admin123' }
     }
   ];
 
@@ -255,7 +255,7 @@ export function LoginPortal({ onBack, onLogin }: LoginPortalProps) {
               <CardHeader>
                 <CardTitle>Register New Account</CardTitle>
                 <CardDescription>
-                  Create a new account for the AyurTrace supply chain network
+                  Create a new account for the Viśuddha supply chain network
                 </CardDescription>
               </CardHeader>
               <CardContent>
@@ -372,7 +372,7 @@ export function LoginPortal({ onBack, onLogin }: LoginPortalProps) {
                       <div>
                         <h4 className="font-medium text-yellow-800">Account Verification Required</h4>
                         <p className="text-sm text-yellow-700">
-                          New accounts require verification by AyurTrace administrators before access is granted. 
+                          New accounts require verification by Viśuddha administrators before access is granted. 
                           This ensures supply chain integrity and compliance.
                         </p>
                       </div>

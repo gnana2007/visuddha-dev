@@ -17,7 +17,7 @@ const translations = {
     'nav.features': 'Features',
     'nav.demo': 'Demo',
     'nav.technology': 'Technology',
-    'app.title': 'AyurTrace',
+    'app.title': 'Viśuddha',
     'app.subtitle': 'Blockchain-Powered Ayurvedic Supply Chain',
     
     // Hero Section
@@ -1178,7 +1178,7 @@ export function LanguageProvider({ children }: LanguageProviderProps) {
 
   useEffect(() => {
     // Check for saved language preference
-    const savedLanguage = localStorage.getItem('ayurtrace_language') as Language;
+    const savedLanguage = localStorage.getItem('visuddha_language') as Language;
     if (savedLanguage && (savedLanguage === 'en' || savedLanguage === 'hi' || savedLanguage === 'te')) {
       setLanguage(savedLanguage);
     }
@@ -1186,7 +1186,7 @@ export function LanguageProvider({ children }: LanguageProviderProps) {
 
   const handleSetLanguage = (lang: Language) => {
     setLanguage(lang);
-    localStorage.setItem('ayurtrace_language', lang);
+    localStorage.setItem('visuddha_language', lang);
   };
 
   const t = (key: string): string => {

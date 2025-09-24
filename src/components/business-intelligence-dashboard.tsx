@@ -344,7 +344,7 @@ export function BusinessIntelligenceDashboard({ onBack }: BusinessIntelligenceDa
 
         <div className="text-center mb-6">
           <h1 className="text-3xl font-bold text-gray-900 mb-2">Business Intelligence Dashboard</h1>
-          <p className="text-gray-600">Advanced analytics and insights for AyurTrace supply chain network</p>
+          <p className="text-gray-600">Advanced analytics and insights for Viśuddha supply chain network</p>
         </div>
       </div>
 

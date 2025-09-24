@@ -47,7 +47,7 @@ export function BlockchainNetwork({ onBack }: BlockchainNetworkProps) {
 
   const networkNodes = [
     {
-      id: 'peer0.org1.ayurtrace.com',
+      id: 'peer0.org1.visuddha.com',
       type: 'Peer',
       organization: 'Collectors Org',
       status: 'Running',
@@ -57,7 +57,7 @@ export function BlockchainNetwork({ onBack }: BlockchainNetworkProps) {
       endorsements: 1247
     },
     {
-      id: 'peer0.org2.ayurtrace.com',
+      id: 'peer0.org2.visuddha.com',
       type: 'Peer',
       organization: 'Processors Org',
       status: 'Running',
@@ -67,7 +67,7 @@ export function BlockchainNetwork({ onBack }: BlockchainNetworkProps) {
       endorsements: 1189
     },
     {
-      id: 'peer0.org3.ayurtrace.com',
+      id: 'peer0.org3.visuddha.com',
       type: 'Peer',
       organization: 'Labs Org',
       status: 'Running',
@@ -77,7 +77,7 @@ export function BlockchainNetwork({ onBack }: BlockchainNetworkProps) {
       endorsements: 856
     },
     {
-      id: 'orderer.ayurtrace.com',
+      id: 'orderer.visuddha.com',
       type: 'Orderer',
       organization: 'Orderer Org',
       status: 'Running',

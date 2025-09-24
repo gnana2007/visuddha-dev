@@ -72,7 +72,7 @@ export function SettingsAdministration({ onBack }: SettingsAdministrationProps) 
     {
       id: 'U001',
       name: 'Admin User',
-      email: 'admin@ayurtrace.com',
+      email: 'admin@visuddha.com',
       role: 'System Administrator',
       status: 'active',
       lastLogin: '2024-01-19 14:30',
@@ -82,7 +82,7 @@ export function SettingsAdministration({ onBack }: SettingsAdministrationProps) 
     {
       id: 'U002',
       name: 'Quality Manager',
-      email: 'quality@ayurtrace.com',
+      email: 'quality@visuddha.com',
       role: 'Quality Controller',
       status: 'active',
       lastLogin: '2024-01-19 13:45',
@@ -92,7 +92,7 @@ export function SettingsAdministration({ onBack }: SettingsAdministrationProps) 
     {
       id: 'U003',
       name: 'Operations Manager',
-      email: 'ops@ayurtrace.com',
+      email: 'ops@visuddha.com',
       role: 'Operations',
       status: 'active',
       lastLogin: '2024-01-19 12:20',
@@ -102,7 +102,7 @@ export function SettingsAdministration({ onBack }: SettingsAdministrationProps) 
     {
       id: 'U004',
       name: 'Support Staff',
-      email: 'support@ayurtrace.com',
+      email: 'support@visuddha.com',
       role: 'Support',
       status: 'inactive',
       lastLogin: '2024-01-15 16:10',
@@ -128,16 +128,16 @@ export function SettingsAdministration({ onBack }: SettingsAdministrationProps) 
     {
       id: 'A001',
       timestamp: '2024-01-19 14:30:15',
-      user: 'admin@ayurtrace.com',
+      user: 'admin@visuddha.com',
       action: 'User Role Modified',
-      details: 'Changed role for quality@ayurtrace.com from Viewer to Quality Controller',
+      details: 'Changed role for quality@visuddha.com from Viewer to Quality Controller',
       ipAddress: '192.168.1.100',
       status: 'success'
     },
     {
       id: 'A002',
       timestamp: '2024-01-19 13:45:22',
-      user: 'quality@ayurtrace.com',
+      user: 'quality@visuddha.com',
       action: 'Quality Report Generated',
       details: 'Generated monthly quality report for December 2023',
       ipAddress: '192.168.1.105',
@@ -146,7 +146,7 @@ export function SettingsAdministration({ onBack }: SettingsAdministrationProps) 
     {
       id: 'A003',
       timestamp: '2024-01-19 12:20:33',
-      user: 'ops@ayurtrace.com',
+      user: 'ops@visuddha.com',
       action: 'System Configuration Changed',
       details: 'Modified blockchain network parameters',
       ipAddress: '192.168.1.110',
@@ -174,7 +174,7 @@ export function SettingsAdministration({ onBack }: SettingsAdministrationProps) 
 
   // Blockchain Configuration
   const blockchainConfig = {
-    networkName: 'AyurTrace Hyperledger Fabric',
+    networkName: 'Viśuddha Hyperledger Fabric',
     consensus: 'PBFT',
     blockTime: '4.2s',
     peers: 8,
@@ -862,7 +862,7 @@ export function SettingsAdministration({ onBack }: SettingsAdministrationProps) 
                           <span className="text-green-600">09:15 AM</span>
                         </div>
                         <div className="flex justify-between">
-                          <span>2FA enabled (quality@ayurtrace.com)</span>
+                          <span>2FA enabled (quality@visuddha.com)</span>
                           <span className="text-blue-600">08:45 AM</span>
                         </div>
                       </div>
