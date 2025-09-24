@@ -154,7 +154,7 @@ export function LoginPortal({ onBack, onLogin }: LoginPortalProps) {
                                 size="sm"
                                 variant="outline"
                                 className="mt-2 text-xs"
-                                onClick={(e) => {
+                                onClick={(e: React.MouseEvent) => {
                                   e.stopPropagation();
                                   handleDemoLogin(type.id);
                                 }}
@@ -255,7 +255,7 @@ export function LoginPortal({ onBack, onLogin }: LoginPortalProps) {
               <CardHeader>
                 <CardTitle>Register New Account</CardTitle>
                 <CardDescription>
-                  Create a new account for the Visuddha supply chain network
+                  Create a new account for the Viśuddha supply chain network
                 </CardDescription>
               </CardHeader>
               <CardContent>
@@ -372,7 +372,7 @@ export function LoginPortal({ onBack, onLogin }: LoginPortalProps) {
                       <div>
                         <h4 className="font-medium text-yellow-800">Account Verification Required</h4>
                         <p className="text-sm text-yellow-700">
-                          New accounts require verification by Visuddha administrators before access is granted. 
+                          New accounts require verification by Viśuddha administrators before access is granted. 
                           This ensures supply chain integrity and compliance.
                         </p>
                       </div>

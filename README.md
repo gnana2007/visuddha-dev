@@ -1,7 +1,7 @@
 
-  # Ayurvedic Herb Traceability System
+# Viśuddha
 
-  This is a code bundle for Ayurvedic Herb Traceability System. 
+This is a code bundle for Viśuddha - Ayurvedic Herb Traceability System.
 
   ## Running the code
 

@@ -174,7 +174,7 @@ export function SettingsAdministration({ onBack }: SettingsAdministrationProps) 
 
   // Blockchain Configuration
   const blockchainConfig = {
-    networkName: 'Visuddha Hyperledger Fabric',
+    networkName: 'Viśuddha Hyperledger Fabric',
     consensus: 'PBFT',
     blockTime: '4.2s',
     peers: 8,
@@ -321,7 +321,7 @@ export function SettingsAdministration({ onBack }: SettingsAdministrationProps) 
                       <Switch
                         id="maintenance"
                         checked={systemSettings.maintenanceMode}
-                        onCheckedChange={(checked) => handleSettingChange('maintenanceMode', checked)}
+                        onCheckedChange={(checked: boolean) => handleSettingChange('maintenanceMode', checked)}
                       />
                     </div>
 
@@ -357,7 +357,7 @@ export function SettingsAdministration({ onBack }: SettingsAdministrationProps) 
                       <Switch
                         id="sms-notif"
                         checked={systemSettings.smsNotifications}
-                        onCheckedChange={(checked) => handleSettingChange('smsNotifications', checked)}
+                        onCheckedChange={(checked: boolean) => handleSettingChange('smsNotifications', checked)}
                       />
                     </div>
 
@@ -774,7 +774,7 @@ export function SettingsAdministration({ onBack }: SettingsAdministrationProps) 
                       <Switch
                         id="two-factor"
                         checked={systemSettings.enableTwoFactor}
-                        onCheckedChange={(checked) => handleSettingChange('enableTwoFactor', checked)}
+                        onCheckedChange={(checked: boolean) => handleSettingChange('enableTwoFactor', checked)}
                       />
                     </div>
 
@@ -786,7 +786,7 @@ export function SettingsAdministration({ onBack }: SettingsAdministrationProps) 
                       <Switch
                         id="audit-log"
                         checked={systemSettings.enableAuditLog}
-                        onCheckedChange={(checked) => handleSettingChange('enableAuditLog', checked)}
+                        onCheckedChange={(checked: boolean) => handleSettingChange('enableAuditLog', checked)}
                       />
                     </div>
 
@@ -798,7 +798,7 @@ export function SettingsAdministration({ onBack }: SettingsAdministrationProps) 
                       <Switch
                         id="data-export"
                         checked={systemSettings.allowDataExport}
-                        onCheckedChange={(checked) => handleSettingChange('allowDataExport', checked)}
+                        onCheckedChange={(checked: boolean) => handleSettingChange('allowDataExport', checked)}
                       />
                     </div>
 

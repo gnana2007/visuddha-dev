@@ -45,122 +45,82 @@ interface FarmerManagementPortalProps {
 
 export function FarmerManagementPortal({ onBack }: FarmerManagementPortalProps) {
   const { t } = useLanguage();
-  const [selectedFarmer, setSelectedFarmer] = useState(null);
+  const [selectedFarmer, setSelectedFarmer] = useState<Farmer | null>(null);
   const [searchTerm, setSearchTerm] = useState('');
   const [filterRegion, setFilterRegion] = useState('all');
 
-  const farmers = [
-    {
-      id: 'F001',
-      name: 'Ramesh Kumar',
-      phone: '+91 98765 43210',
-      email: 'ramesh.farmer@gmail.com',
-      location: 'Rampur Village, Rajasthan',
-      farmSize: '5.2 hectares',
-      experience: '15 years',
-      joinDate: '2019-03-15',
-      status: 'active',
-      rating: 4.8,
-      totalCollections: 145,
-      totalVolume: '2,340 kg',
-      totalEarnings: '₹1,45,600',
-      qualityScore: 96.2,
-      certifications: ['Organic', 'AYUSH Certified'],
-      specialties: ['Ashwagandha', 'Neem'],
-      lastCollection: '2024-01-18',
-      achievements: ['Quality Excellence 2023', 'Top Performer Q4'],
-      bankAccount: 'ICICI Bank ****1234',
-      profileImage: '/api/placeholder/150/150'
-    },
-    {
-      id: 'F002',
-      name: 'Priya Sharma',
-      phone: '+91 87654 32109',
-      email: 'priya.herbs@gmail.com',
-      location: 'Mysore, Karnataka',
-      farmSize: '3.8 hectares',
-      experience: '12 years',
-      joinDate: '2020-07-22',
-      status: 'active',
-      rating: 4.6,
-      totalCollections: 98,
-      totalVolume: '1,890 kg',
-      totalEarnings: '₹1,12,400',
-      qualityScore: 94.8,
-      certifications: ['Organic'],
-      specialties: ['Tulsi', 'Brahmi'],
-      lastCollection: '2024-01-17',
-      achievements: ['Sustainability Champion'],
-      bankAccount: 'SBI Bank ****5678',
-      profileImage: '/api/placeholder/150/150'
-    },
-    {
-      id: 'F003',
-      name: 'Amit Patel',
-      phone: '+91 76543 21098',
-      email: 'amit.medicinal@gmail.com',
-      location: 'Bhavnagar, Gujarat',
-      farmSize: '7.1 hectares',
-      experience: '20 years',
-      joinDate: '2018-11-08',
-      status: 'active',
-      rating: 4.9,
-      totalCollections: 203,
-      totalVolume: '3,450 kg',
-      totalEarnings: '₹2,08,700',
-      qualityScore: 97.5,
-      certifications: ['Organic', 'AYUSH Certified', 'FairTrade'],
-      specialties: ['Ashwagandha', 'Brahmi', 'Turmeric'],
-      lastCollection: '2024-01-19',
-      achievements: ['Master Collector 2023', 'Innovation Award'],
-      bankAccount: 'HDFC Bank ****9012',
-      profileImage: '/api/placeholder/150/150'
-    },
-    {
-      id: 'F004',
-      name: 'Sunita Devi',
-      phone: '+91 65432 10987',
-      email: 'sunita.organic@gmail.com',
-      location: 'Indore, Madhya Pradesh',
-      farmSize: '4.3 hectares',
-      experience: '8 years',
-      joinDate: '2021-01-12',
-      status: 'active',
-      rating: 4.4,
-      totalCollections: 67,
-      totalVolume: '1,230 kg',
-      totalEarnings: '₹89,500',
-      qualityScore: 92.1,
-      certifications: ['Organic'],
-      specialties: ['Neem', 'Amla'],
-      lastCollection: '2024-01-16',
-      achievements: ['Rising Star 2023'],
-      bankAccount: 'PNB Bank ****3456',
-      profileImage: '/api/placeholder/150/150'
-    },
-    {
-      id: 'F005',
-      name: 'Rajesh Singh',
-      phone: '+91 54321 09876',
-      email: 'rajesh.herbs@gmail.com',
-      location: 'Jodhpur, Rajasthan',
-      farmSize: '6.7 hectares',
-      experience: '18 years',
-      joinDate: '2019-09-03',
-      status: 'inactive',
-      rating: 4.2,
-      totalCollections: 89,
-      totalVolume: '1,670 kg',
-      totalEarnings: '₹98,200',
-      qualityScore: 88.7,
-      certifications: ['AYUSH Certified'],
-      specialties: ['Ashwagandha'],
-      lastCollection: '2023-12-15',
-      achievements: [],
-      bankAccount: 'BOI Bank ****7890',
-      profileImage: '/api/placeholder/150/150'
-    }
-  ];
+ interface Farmer {
+  id: string;
+  name: string;
+  phone: string;
+  email: string;
+  location: string;
+  farmSize: string;
+  experience: string;
+  joinDate: string;
+  status: 'active' | 'inactive';
+  rating: number;
+  totalCollections: number;
+  totalVolume: string;
+  totalEarnings: string;
+  qualityScore: number;
+  certifications: string[];
+  specialties: string[];
+  lastCollection: string;
+  achievements: string[];
+  bankAccount: string;
+  profileImage: string;
+}
+
+
+const farmers: Farmer[] = [
+  {
+    id: 'F001',
+    name: 'Ramesh Kumar',
+    phone: '+91 98765 43210',
+    email: 'ramesh.farmer@gmail.com',
+    location: 'Rampur Village, Rajasthan',
+    farmSize: '5.2 hectares',
+    experience: '15 years',
+    joinDate: '2019-03-15',
+    status: 'active',
+    rating: 4.8,
+    totalCollections: 145,
+    totalVolume: '2,340 kg',
+    totalEarnings: '₹1,45,600',
+    qualityScore: 96.2,
+    certifications: ['Organic', 'AYUSH Certified'],
+    specialties: ['Ashwagandha', 'Neem'],
+    lastCollection: '2024-01-18',
+    achievements: ['Quality Excellence 2023', 'Top Performer Q4'],
+    bankAccount: 'ICICI Bank ****1234',
+    profileImage: '/api/placeholder/150/150'
+  },
+  {
+    id: 'F002',
+    name: 'Priya Sharma',
+    phone: '+91 87654 32109',
+    email: 'priya.herbs@gmail.com',
+    location: 'Mysore, Karnataka',
+    farmSize: '3.8 hectares',
+    experience: '12 years',
+    joinDate: '2020-07-22',
+    status: 'active',
+    rating: 4.6,
+    totalCollections: 98,
+    totalVolume: '1,890 kg',
+    totalEarnings: '₹1,12,400',
+    qualityScore: 94.8,
+    certifications: ['Organic'],
+    specialties: ['Tulsi', 'Brahmi'],
+    lastCollection: '2024-01-17',
+    achievements: ['Sustainability Champion'],
+    bankAccount: 'SBI Bank ****5678',
+    profileImage: '/api/placeholder/150/150'
+  },
+  // ...rest of the farmers
+];
+
 
   const performanceMetrics = [
     {
@@ -314,7 +274,7 @@ export function FarmerManagementPortal({ onBack }: FarmerManagementPortalProps) 
 
         <div className="text-center mb-6">
           <h1 className="text-3xl font-bold text-gray-900 mb-2">Farmer & Collector Management</h1>
-          <p className="text-gray-600">Comprehensive management portal for farmers and herb collectors in the Visuddha network</p>
+          <p className="text-gray-600">Comprehensive management portal for farmers and herb collectors in the Viśuddha network</p>
         </div>
       </div>
 
@@ -855,7 +815,7 @@ export function FarmerManagementPortal({ onBack }: FarmerManagementPortalProps) 
               <Card>
                 <CardHeader>
                   <CardTitle>New Farmer Registration</CardTitle>
-                  <CardDescription>Onboard new farmers to the Visuddha network</CardDescription>
+                  <CardDescription>Onboard new farmers to the Viśuddha network</CardDescription>
                 </CardHeader>
                 <CardContent>
                   <form className="space-y-4">

@@ -1,15 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { UserService, AnalyticsService } from './utils/data-service';
-
-// Define User type based on the demo users structure
-interface User {
-  id?: string;
-  email: string;
-  name: string;
-  type: string;
-  organization: string;
-  permissions: string[];
-}
 import { Button } from './components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from './components/ui/card';
 import { Badge } from './components/ui/badge';
@@ -56,6 +46,23 @@ import { RoleBadge } from './components/role-badge';
 import { RealTimeMetrics } from './components/real-time-metrics';
 import { BlockchainStatus } from './components/blockchain-status';
 
+import { LucideIcon } from "lucide-react"; // icons like Shield, MapPin, etc.
+
+type Metric = {
+  icon: LucideIcon;
+  value: string;
+  label: string;
+  color: string;
+};
+
+type Role = "farmer" | "processor" | "lab" | "consumer" | "admin";
+
+interface User {
+  type: Role;
+  permissions: string[];
+}
+
+
 export default function App() {
   return (
     <LanguageProvider>
@@ -66,6 +73,14 @@ export default function App() {
 
 function AppContent() {
   const [activeView, setActiveView] = useState('home');
+  type User = {
+    id: string;
+    name: string;
+    type: string;
+    organization?: string;
+    permissions?: string[];
+    // add other fields as needed
+  };
   const [currentUser, setCurrentUser] = useState<User | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -112,10 +127,10 @@ function AppContent() {
   };
 
   const hasPermission = (requiredPermissions: string[]) => {
-    if (!currentUser) return false;
-    if (currentUser.permissions.includes('full_access')) return true;
+    if (!currentUser) return true; // Allow demo access for non-logged-in users
+    if (currentUser.permissions?.includes('full_access')) return true;
     return requiredPermissions.some(permission => 
-      currentUser.permissions.includes(permission)
+      currentUser.permissions?.includes(permission)
     );
   };
 
@@ -210,7 +225,7 @@ function AppContent() {
       <div className="min-h-screen bg-gradient-to-br from-green-50 to-blue-50 flex items-center justify-center">
         <div className="text-center">
           <div className="w-16 h-16 border-4 border-green-600 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
-          <p className="text-gray-600">Loading Visuddha Platform...</p>
+          <p className="text-gray-600">Loading Viśuddha Platform...</p>
         </div>
       </div>
     );
@@ -223,14 +238,14 @@ function AppContent() {
   );
 }
 
-function HomePage({ onNavigate, currentUser, onLogout }: { onNavigate: (view: string) => void; currentUser: User | null; onLogout: () => void }) {
+function HomePage({ onNavigate, currentUser, onLogout }: { onNavigate: (view: string) => void; currentUser: any; onLogout: () => void }) {
   const { t } = useLanguage();
 
   const hasPermission = (requiredPermissions: string[]) => {
     if (!currentUser) return true; // Show all demos if not logged in
-    if (currentUser.permissions.includes('full_access')) return true;
+    if (currentUser.permissions?.includes('full_access')) return true;
     return requiredPermissions.some(permission => 
-      currentUser.permissions.includes(permission)
+      currentUser.permissions?.includes(permission)
     );
   };
 
@@ -298,51 +313,52 @@ function HomePage({ onNavigate, currentUser, onLogout }: { onNavigate: (view: st
   const accessibleFeatures = allFeatures.filter(feature => hasPermission(feature.permissions));
 
   // Define role-specific metrics
-  const getRoleSpecificMetrics = () => {
-    if (!currentUser) {
-      return [
-        { icon: Shield, value: "100%", label: t('metrics.traceable'), color: "green-600" },
-        { icon: MapPin, value: "GPS", label: t('metrics.gps'), color: "blue-600" },
-        { icon: CheckCircle, value: "Smart", label: t('metrics.smart'), color: "purple-600" },
-        { icon: Eye, value: "Real-time", label: t('metrics.realtime'), color: "orange-600" }
-      ];
-    }
+ const getRoleSpecificMetrics = (): Metric[] => {
+  if (!currentUser) {
+    return [
+      { icon: Shield, value: "100%", label: t("metrics.traceable"), color: "green-600" },
+      { icon: MapPin, value: "GPS", label: t("metrics.gps"), color: "blue-600" },
+      { icon: CheckCircle, value: "Smart", label: t("metrics.smart"), color: "purple-600" },
+      { icon: Eye, value: "Real-time", label: t("metrics.realtime"), color: "orange-600" },
+    ];
+  }
 
-    const roleMetrics = {
-      farmer: [
-        { icon: MapPin, value: "GPS", label: "Location Tracking", color: "green-600" },
-        { icon: Smartphone, value: "Mobile", label: "Collection App", color: "blue-600" },
-        { icon: Clock, value: "24/7", label: "Data Sync", color: "purple-600" },
-        { icon: CheckCircle, value: "Verified", label: "Quality Checks", color: "orange-600" }
-      ],
-      processor: [
-        { icon: BarChart3, value: "Live", label: "Processing Data", color: "blue-600" },
-        { icon: Cpu, value: "IoT", label: "Sensor Network", color: "green-600" },
-        { icon: Shield, value: "100%", label: "Batch Tracking", color: "purple-600" },
-        { icon: Zap, value: "Auto", label: "Smart Contracts", color: "orange-600" }
-      ],
-      lab: [
-        { icon: Shield, value: "ISO", label: "Certified Labs", color: "purple-600" },
-        { icon: Brain, value: "AI", label: "Quality Prediction", color: "green-600" },
-        { icon: CheckCircle, value: "100%", label: "Test Coverage", color: "blue-600" },
-        { icon: Clock, value: "Real-time", label: "Results", color: "orange-600" }
-      ],
-      consumer: [
-        { icon: QrCode, value: "QR", label: "Product Scanning", color: "purple-600" },
-        { icon: Eye, value: "Full", label: "Transparency", color: "green-600" },
-        { icon: Shield, value: "Verified", label: "Authenticity", color: "blue-600" },
-        { icon: MapPin, value: "Origin", label: "Source Tracking", color: "orange-600" }
-      ],
-      admin: [
-        { icon: Network, value: "Blockchain", label: "Network Status", color: "indigo-600" },
-        { icon: Users, value: "Multi-role", label: "User Management", color: "green-600" },
-        { icon: BarChart3, value: "Analytics", label: "Business Intelligence", color: "blue-600" },
-        { icon: Settings, value: "Config", label: "System Admin", color: "gray-600" }
-      ]
-    };
-
-    return roleMetrics[currentUser.type] || roleMetrics.admin;
+  const roleMetrics: Record<Role, Metric[]> = {
+    farmer: [
+      { icon: MapPin, value: "GPS", label: "Location Tracking", color: "green-600" },
+      { icon: Smartphone, value: "Mobile", label: "Collection App", color: "blue-600" },
+      { icon: Clock, value: "24/7", label: "Data Sync", color: "purple-600" },
+      { icon: CheckCircle, value: "Verified", label: "Quality Checks", color: "orange-600" },
+    ],
+    processor: [
+      { icon: BarChart3, value: "Live", label: "Processing Data", color: "blue-600" },
+      { icon: Cpu, value: "IoT", label: "Sensor Network", color: "green-600" },
+      { icon: Shield, value: "100%", label: "Batch Tracking", color: "purple-600" },
+      { icon: Zap, value: "Auto", label: "Smart Contracts", color: "orange-600" },
+    ],
+    lab: [
+      { icon: Shield, value: "ISO", label: "Certified Labs", color: "purple-600" },
+      { icon: Brain, value: "AI", label: "Quality Prediction", color: "green-600" },
+      { icon: CheckCircle, value: "100%", label: "Test Coverage", color: "blue-600" },
+      { icon: Clock, value: "Real-time", label: "Results", color: "orange-600" },
+    ],
+    consumer: [
+      { icon: QrCode, value: "QR", label: "Product Scanning", color: "purple-600" },
+      { icon: Eye, value: "Full", label: "Transparency", color: "green-600" },
+      { icon: Shield, value: "Verified", label: "Authenticity", color: "blue-600" },
+      { icon: MapPin, value: "Origin", label: "Source Tracking", color: "orange-600" },
+    ],
+    admin: [
+      { icon: Network, value: "Blockchain", label: "Network Status", color: "indigo-600" },
+      { icon: Users, value: "Multi-role", label: "User Management", color: "green-600" },
+      { icon: BarChart3, value: "Analytics", label: "Business Intelligence", color: "blue-600" },
+      { icon: Settings, value: "Config", label: "System Admin", color: "gray-600" },
+    ],
   };
+
+  return roleMetrics[(currentUser.type as Role)] ?? roleMetrics.admin;
+};
+
 
   // Define which demo cards each role can access
   const demoCards = [
@@ -541,7 +557,7 @@ function HomePage({ onNavigate, currentUser, onLogout }: { onNavigate: (view: st
                       You have access to {accessibleDemoCards.length} interface{accessibleDemoCards.length !== 1 ? 's' : ''} and specialized {currentUser.type} tools.
                     </p>
                     <div className="flex flex-wrap gap-2">
-                      {currentUser.permissions?.slice(0, 4).map((permission, index) => (
+                      {currentUser.permissions?.slice(0, 4).map((permission: string, index: number) => (
                         <Badge key={index} variant="secondary" className="text-xs">
                           {permission.replace('_', ' ')}
                         </Badge>

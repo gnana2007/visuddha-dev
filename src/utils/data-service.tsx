@@ -1,5 +1,3 @@
-import { auth, blockchain, collection, processing, laboratory, consumer, analytics } from './supabase/client';
-
 // Demo user accounts for easy testing
 export const DEMO_USERS = {
   farmer: {
@@ -39,33 +37,27 @@ export const DEMO_USERS = {
     password: 'admin123',
     name: 'System Administrator',
     type: 'admin',
-    organization: 'Visuddha Platform',
+    organization: 'Viśuddha Platform',
     permissions: ['full_access', 'user_management', 'system_config', 'operations']
   }
 };
+
+// Mock data storage
+let mockUsers: any[] = [];
+let mockTransactions: any[] = [];
+let mockProducts: any[] = [];
+let mockSensors: any[] = [];
+let mockAnalytics: any[] = [];
 
 // Initialize demo data
 export async function initializeDemoData() {
   try {
     console.log('Initializing demo data...');
 
-    // Create demo users (if they don't exist)
-    for (const [key, userData] of Object.entries(DEMO_USERS)) {
-      try {
-        await auth.signUp(userData.email, userData.password, {
-          name: userData.name,
-          userType: userData.type,
-          organization: userData.organization,
-          permissions: userData.permissions
-        });
-        console.log(`Created demo user: ${userData.name} (${userData.type})`);
-      } catch (error) {
-        // User might already exist, which is fine
-        console.log(`Demo user ${userData.type} may already exist`);
-      }
-    }
-
-    // Create sample blockchain transactions
+    // Initialize mock users
+    mockUsers = Object.values(DEMO_USERS);
+    
+    // Create sample transactions
     await createSampleTransactions();
     
     console.log('Demo data initialization completed');
@@ -79,7 +71,8 @@ export async function initializeDemoData() {
 async function createSampleTransactions() {
   try {
     // Sample collection transaction
-    await blockchain.createTransaction({
+    const collectionTx = {
+      id: 'tx_collection_001',
       type: 'collection',
       productId: 'ashwagandha_001',
       data: {
@@ -97,11 +90,14 @@ async function createSampleTransactions() {
         temperature: 28,
         humidity: 45,
         soilPh: 7.2
-      }
-    });
+      },
+      timestamp: new Date().toISOString(),
+      hash: 'mock_hash_collection_001'
+    };
 
     // Sample processing transaction
-    await blockchain.createTransaction({
+    const processingTx = {
+      id: 'tx_processing_001',
       type: 'processing',
       productId: 'ashwagandha_powder_001',
       data: {
@@ -119,11 +115,14 @@ async function createSampleTransactions() {
         temperature: 60,
         humidity: 20,
         duration: 480 // 8 hours
-      }
-    });
+      },
+      timestamp: new Date().toISOString(),
+      hash: 'mock_hash_processing_001'
+    };
 
     // Sample testing transaction
-    await blockchain.createTransaction({
+    const testingTx = {
+      id: 'tx_testing_001',
       type: 'testing',
       productId: 'ashwagandha_powder_001',
       data: {
@@ -143,236 +142,285 @@ async function createSampleTransactions() {
         testDate: new Date().toISOString()
       },
       location: 'Central Ayurvedic Research Lab',
-      deviceId: 'lab_equipment_001'
-    });
+      deviceId: 'lab_equipment_001',
+      sensors: {
+        temperature: 22,
+        humidity: 45,
+        pressure: 1013
+      },
+      timestamp: new Date().toISOString(),
+      hash: 'mock_hash_testing_001'
+    };
 
-    console.log('Sample transactions created successfully');
-  } catch (error) {
-    console.log('Note: Sample transactions may already exist or user not authenticated');
-  }
-}
-
-// User management
-export class UserService {
-  static async login(userType: string) {
-    const userData = DEMO_USERS[userType as keyof typeof DEMO_USERS];
-    if (!userData) {
-      throw new Error('Invalid user type');
-    }
-
-    try {
-      const { data, error } = await auth.signIn(userData.email, userData.password);
-      if (error) throw error;
-
-      // Get full user profile
-      const { data: profile, error: profileError } = await auth.getProfile();
-      if (profileError) {
-        console.warn('Could not fetch user profile:', profileError);
-        // Return basic user data
-        return {
-          ...userData,
-          id: data.user?.id
-        };
+    mockTransactions = [collectionTx, processingTx, testingTx];
+    
+    // Create sample products
+    mockProducts = [
+      {
+        id: 'ashwagandha_001',
+        name: 'Ashwagandha Root',
+        type: 'raw_herb',
+        status: 'processed',
+        origin: 'Rajasthan, India',
+        harvestDate: new Date().toISOString(),
+        farmer: 'Ravi Kumar',
+        quality: 95
+      },
+      {
+        id: 'ashwagandha_powder_001',
+        name: 'Ashwagandha Powder',
+        type: 'processed_product',
+        status: 'certified',
+        origin: 'Himachal Pradesh, India',
+        processDate: new Date().toISOString(),
+        processor: 'Priya Sharma',
+        quality: 98.5
       }
+    ];
 
-      return profile;
+    // Create sample sensor data
+    mockSensors = [
+      {
+        id: 'sensor_001',
+        type: 'temperature',
+        value: 28,
+        unit: '°C',
+        location: 'Field A-1',
+        timestamp: new Date().toISOString()
+      },
+      {
+        id: 'sensor_002',
+        type: 'humidity',
+        value: 45,
+        unit: '%',
+        location: 'Field A-1',
+        timestamp: new Date().toISOString()
+      }
+    ];
+
+    // Create sample analytics
+    mockAnalytics = [
+      {
+        id: 'analytics_001',
+        type: 'quality_trend',
+        data: {
+          period: 'last_30_days',
+          averageQuality: 94.2,
+          trend: 'improving',
+          samples: 150
+        },
+        timestamp: new Date().toISOString()
+      }
+    ];
+
     } catch (error) {
-      console.error('Login error:', error);
-      throw error;
-    }
-  }
-
-  static async logout() {
-    return auth.signOut();
-  }
-
-  static async getCurrentUser() {
-    try {
-      const { data: session } = await auth.getSession();
-      if (!session.session) return null;
-
-      const { data: profile } = await auth.getProfile();
-      return profile;
-    } catch (error) {
-      console.error('Get current user error:', error);
-      return null;
-    }
-  }
-}
-
-// Collection service
-export class CollectionService {
-  static async startCollection(location: any, plantType: string, estimatedQuantity: number) {
-    try {
-      const response = await collection.startSession({
-        location,
-        plantType,
-        estimatedQuantity
-      });
-      return response.session;
-    } catch (error) {
-      console.error('Start collection error:', error);
-      throw error;
-    }
-  }
-
-  static async addCollectedItem(sessionId: string, item: any) {
-    try {
-      const response = await collection.addItem(sessionId, item);
-      return response.item;
-    } catch (error) {
-      console.error('Add item error:', error);
-      throw error;
-    }
+    console.error('Error creating sample transactions:', error);
   }
 }
 
-// Processing service
-export class ProcessingService {
-  static async createBatch(sourceItems: any[], processType: string, targetProducts: any[]) {
-    try {
-      const response = await processing.createBatch({
-        sourceItems,
-        processType,
-        targetProducts
-      });
-      return response.batch;
-    } catch (error) {
-      console.error('Create batch error:', error);
-      throw error;
-    }
-  }
+// Mock User Service
+export const UserService = {
+  async getCurrentUser() {
+    // Return the first user as current user for demo
+    return mockUsers[0] || null;
+  },
 
-  static async updateIoTData(batchId: string, sensorData: any) {
-    try {
-      const response = await processing.updateIoTData(batchId, sensorData);
-      return response.iotEntry;
-    } catch (error) {
-      console.error('Update IoT data error:', error);
-      throw error;
+  async login(userType: string) {
+    const user = mockUsers.find(u => u.type === userType);
+    if (user) {
+      return user;
     }
-  }
-}
+    throw new Error('User not found');
+  },
 
-// Laboratory service
-export class LaboratoryService {
-  static async createTestRequest(sampleId: string, testTypes: string[], priority: string = 'normal') {
-    try {
-      const response = await laboratory.createTestRequest({
-        sampleId,
-        testTypes,
-        priority
-      });
-      return response.testRequest;
-    } catch (error) {
-      console.error('Create test request error:', error);
-      throw error;
+  async logout() {
+    // Mock logout - just return success
+    return { success: true };
+  },
+
+  async signUp(email: string, password: string, userData: any) {
+    const newUser = {
+      email,
+      password,
+      ...userData,
+      id: `user_${Date.now()}`
+    };
+    mockUsers.push(newUser);
+    return newUser;
+  }
+};
+
+// Mock Blockchain Service
+export const BlockchainService = {
+  async createTransaction(transactionData: any) {
+    const transaction = {
+      id: `tx_${Date.now()}`,
+      ...transactionData,
+      timestamp: new Date().toISOString(),
+      hash: `mock_hash_${Date.now()}`
+    };
+    mockTransactions.push(transaction);
+    return transaction;
+  },
+
+  async getTransactions(productId?: string) {
+    if (productId) {
+      return mockTransactions.filter(tx => tx.productId === productId);
     }
-  }
+    return mockTransactions;
+  },
 
-  static async submitTestResults(testId: string, results: any, certification: any) {
-    try {
-      const response = await laboratory.submitResults(testId, results, certification);
-      return response.testRequest;
-    } catch (error) {
-      console.error('Submit test results error:', error);
-      throw error;
-    }
-  }
-}
+  async getTransactionById(id: string) {
+    return mockTransactions.find(tx => tx.id === id);
+  },
 
-// Consumer service
-export class ConsumerService {
-  static async verifyProduct(productId: string) {
-    try {
-      const response = await consumer.verifyProduct(productId);
-      return response.verification;
-    } catch (error) {
-      console.error('Product verification error:', error);
-      throw error;
-    }
+  async verifyTransaction(hash: string) {
+    const transaction = mockTransactions.find(tx => tx.hash === hash);
+    return { verified: !!transaction, transaction };
   }
+};
 
-  static async getProductHistory(productId: string) {
-    try {
-      const response = await blockchain.getProductHistory(productId);
-      return response.history;
-    } catch (error) {
-      console.error('Get product history error:', error);
-      throw error;
-    }
+// Mock Collection Service
+export const CollectionService = {
+  async createCollection(collectionData: any) {
+    const collection = {
+      id: `collection_${Date.now()}`,
+      ...collectionData,
+      timestamp: new Date().toISOString()
+    };
+    return collection;
+  },
+
+  async getCollections(userId?: string) {
+    // Return mock collections
+    return [
+      {
+        id: 'collection_001',
+        plantType: 'Ashwagandha',
+        quantity: 50,
+        location: 'Rajasthan, India',
+        quality: 95,
+        timestamp: new Date().toISOString()
+      }
+    ];
   }
-}
+};
 
-// Analytics service
-export class AnalyticsService {
-  static async getDashboardMetrics() {
-    try {
-      const response = await analytics.getMetrics();
-      return response.metrics;
-    } catch (error) {
-      console.error('Get metrics error:', error);
-      // Return mock data as fallback
+// Mock Processing Service
+export const ProcessingService = {
+  async createBatch(batchData: any) {
+    const batch = {
+      id: `batch_${Date.now()}`,
+      ...batchData,
+      timestamp: new Date().toISOString()
+    };
+    return batch;
+  },
+
+  async getBatches() {
+    return [
+      {
+        id: 'batch_001',
+        productType: 'Ashwagandha Powder',
+        inputQuantity: 50,
+        outputQuantity: 15,
+        quality: 98.5,
+        status: 'completed',
+        timestamp: new Date().toISOString()
+      }
+    ];
+  }
+};
+
+// Mock Laboratory Service
+export const LaboratoryService = {
+  async createTest(testData: any) {
+    const test = {
+      id: `test_${Date.now()}`,
+      ...testData,
+      timestamp: new Date().toISOString()
+    };
+    return test;
+  },
+
+  async getTests() {
+    return [
+      {
+        id: 'test_001',
+        productId: 'ashwagandha_powder_001',
+        testType: 'purity',
+        result: 98.5,
+        status: 'passed',
+        timestamp: new Date().toISOString()
+      }
+    ];
+  }
+};
+
+// Mock Consumer Service
+export const ConsumerService = {
+  async scanProduct(qrCode: string) {
+    const product = mockProducts.find(p => p.id === qrCode);
+    if (product) {
+      const transactions = mockTransactions.filter(tx => tx.productId === product.id);
       return {
-        totalTransactions: 156,
-        recentActivity: 23,
-        qualityScore: 95,
-        complianceStatus: 'compliant'
-      };
-    }
-  }
-
-  static async getSupplyChainData() {
-    try {
-      const response = await analytics.getSupplyChainData();
-      return response.supplyChain;
-    } catch (error) {
-      console.error('Get supply chain data error:', error);
-      // Return mock data as fallback
-      return {
-        nodes: [],
-        edges: [],
-        stats: {
-          totalNodes: 0,
-          totalEdges: 0,
-          networkHealth: '0%'
+        product,
+        transactions,
+        traceability: {
+          complete: true,
+          steps: transactions.length,
+          verified: true
         }
       };
     }
+    throw new Error('Product not found');
   }
-}
+};
 
-// Blockchain service
-export class BlockchainService {
-  static async createTransaction(type: string, data: any, metadata: any = {}) {
-    try {
-      const response = await blockchain.createTransaction({
-        type,
-        data,
-        ...metadata
-      });
-      return response.transaction;
-    } catch (error) {
-      console.error('Create blockchain transaction error:', error);
-      throw error;
+// Mock Analytics Service
+export const AnalyticsService = {
+  async getMetrics(userType?: string) {
+    return {
+      totalProducts: mockProducts.length,
+      totalTransactions: mockTransactions.length,
+      averageQuality: 96.8,
+      complianceRate: 98.5,
+      activeUsers: mockUsers.length
+    };
+  },
+
+  async getQualityTrends() {
+    return {
+      period: 'last_30_days',
+      trend: 'improving',
+      data: [
+        { date: '2024-01-01', quality: 94.2 },
+        { date: '2024-01-02', quality: 95.1 },
+        { date: '2024-01-03', quality: 96.8 }
+      ]
+    };
+  }
+};
+
+// Mock IoT Service
+export const IoTService = {
+  async getSensorData(deviceId?: string) {
+    if (deviceId) {
+      return mockSensors.filter(s => s.deviceId === deviceId);
     }
-  }
+    return mockSensors;
+  },
 
-  static async getTransactionHistory(productId: string) {
-    try {
-      const response = await blockchain.getProductHistory(productId);
-      return response.history;
-    } catch (error) {
-      console.error('Get transaction history error:', error);
-      return [];
-    }
+  async updateSensorData(sensorData: any) {
+    const sensor = {
+      id: `sensor_${Date.now()}`,
+      ...sensorData,
+      timestamp: new Date().toISOString()
+    };
+    mockSensors.push(sensor);
+    return sensor;
   }
-}
+};
 
-// Initialize demo data on app start
-if (typeof window !== 'undefined') {
-  // Only run in browser environment
-  setTimeout(() => {
-    initializeDemoData().catch(console.error);
-  }, 1000); // Delay to ensure app is loaded
-}
+// Initialize demo data on import
+initializeDemoData();

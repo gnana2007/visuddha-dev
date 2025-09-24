@@ -1415,8 +1415,10 @@ export function LanguageProvider({ children }: LanguageProviderProps) {
   };
 
   const t = (key: string): string => {
-    return translations[language][key] || translations.en[key] || key;
+    // @ts-ignore
+    return translations[language]?.[key] || translations.en[key] || key;
   };
+
 
   return (
     <LanguageContext.Provider value={{ language, setLanguage: handleSetLanguage, t }}>
